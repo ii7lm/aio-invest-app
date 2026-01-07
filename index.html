@@ -1,137 +1,102 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>AIO Invest | Alhamdan Vision</title>
-
+    <title>AIO Invest | Alpha System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-
-        body { background-color: #000; color: #D4AF37; font-family: sans-serif; }
-
-        .gold-border { border: 1px solid #D4AF37; }
-
-        .gold-bg { background: linear-gradient(145deg, #D4AF37, #AA891C); color: black; }
-
-        .hidden { display: none; }
-
+        body { font-family: 'Tajawal', sans-serif; background-color: #050505; color: #D4AF37; }
+        .gold-gradient { background: linear-gradient(135deg, #D4AF37 0%, #8A6E2F 100%); color: black; }
+        .glass { background: rgba(26, 26, 26, 0.8); backdrop-filter: blur(10px); border: 1px solid #D4AF37; }
+        .crypto-card { border-left: 4px solid #D4AF37; }
     </style>
-
 </head>
+<body class="min-h-screen flex items-center justify-center">
 
-<body class="flex items-center justify-center min-h-screen p-4">
-
-
-    <div id="login-box" class="max-w-md w-full bg-[#0a0a0a] p-8 rounded-3xl gold-border shadow-2xl text-center">
-
-        <h1 class="text-3xl font-bold mb-6">AIO Invest</h1>
-
-        <input type="password" id="pass" placeholder="كلمة السر (تجريبي: 1234)" class="w-full p-4 rounded-xl bg-[#111] border border-gray-800 text-white mb-4">
-
-        <button onclick="login()" class="w-full py-4 gold-bg rounded-xl font-bold">دخول آمن</button>
-
-        <p id="err" class="text-red-500 text-xs mt-4"></p>
-
+    <div id="login-screen" class="glass p-8 rounded-3xl w-full max-w-md text-center shadow-2xl">
+        <h1 class="text-4xl font-bold mb-2">AIO Invest</h1>
+        <p class="text-gray-400 mb-8">نظام الاستثمار الفائق - نسخة Alpha</p>
+        <input type="text" id="username" placeholder="اسم المستخدم" class="w-full p-4 mb-4 rounded-xl bg-black border border-gray-800 text-white focus:border-yellow-600 outline-none">
+        <input type="password" id="password" placeholder="كلمة السر" class="w-full p-4 mb-6 rounded-xl bg-black border border-gray-800 text-white focus:border-yellow-600 outline-none">
+        <button onclick="handleLogin()" class="w-full py-4 gold-gradient rounded-xl font-bold text-lg hover:opacity-90 transition">دخول آمن</button>
     </div>
 
+    <div id="dashboard" class="hidden w-full max-w-6xl p-6">
+        <header class="flex justify-between items-center mb-8 border-b border-yellow-900 pb-4">
+            <div>
+                <h2 class="text-2xl font-bold">مرحباً، القائد <span id="user-display"></span></h2>
+                <p class="text-sm text-green-500 font-bold">الرتبة: <span id="rank-display">ALPHA</span></p>
+            </div>
+            <button onclick="location.reload()" class="text-xs border border-red-900 px-4 py-2 rounded-lg text-red-500">خروج آمن</button>
+        </header>
 
-    <div id="pref-box" class="hidden max-w-md w-full bg-[#0a0a0a] p-8 rounded-3xl gold-border text-center">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass p-6 rounded-2xl crypto-card">
+                <h3 class="font-bold mb-4 text-white">مراقبة السوق (Live)</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between border-b border-gray-800 pb-2">
+                        <span>Bitcoin (BTC)</span>
+                        <span class="text-green-400" id="btc-price">جاري التحميل...</span>
+                    </div>
+                    <div class="flex justify-between border-b border-gray-800 pb-2">
+                        <span>Ethereum (ETH)</span>
+                        <span class="text-green-400" id="eth-price">جاري التحميل...</span>
+                    </div>
+                </div>
+            </div>
 
-        <h2 class="mb-4">تخصيص التجربة الاستثمارية</h2>
-
-        <p class="text-xs text-gray-400 mb-6">هل تود تفعيل خيارات الاستثمار المتوافقة مع الشريعة؟</p>
-
-        <button onclick="setPref(true)" class="w-full py-3 gold-bg rounded-xl font-bold mb-3">نعم (إسلامي)</button>
-
-        <button onclick="setPref(false)" class="w-full py-3 border border-gray-700 rounded-xl text-white">لا (عام)</button>
-
+            <div class="glass p-6 rounded-2xl md:col-span-2">
+                <h3 class="font-bold mb-4 text-white">مركز التحليل المالي</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="number" id="capital" placeholder="رأس المال (€)" class="p-3 rounded-lg bg-black border border-gray-700 w-full">
+                    <button onclick="calculate()" class="gold-gradient rounded-lg font-bold">تحليل الآن</button>
+                </div>
+                <div id="results" class="mt-6 grid grid-cols-2 gap-4 text-center hidden">
+                    <div class="p-4 bg-yellow-900/20 rounded-xl">
+                        <p class="text-xs text-gray-400">الزكاة الواجبة</p>
+                        <p class="text-xl font-bold" id="zakat-val">0€</p>
+                    </div>
+                    <div class="p-4 bg-green-900/20 rounded-xl">
+                        <p class="text-xs text-gray-400">صافي الاستثمار</p>
+                        <p class="text-xl font-bold" id="net-val">0€</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-    <div id="app" class="hidden max-w-md w-full bg-[#0a0a0a] p-6 rounded-3xl gold-border">
-
-        <div class="flex justify-between items-center mb-8">
-
-            <span id="rank" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">مستثمر طموح</span>
-
-            <span class="text-white font-bold">Alhamdan Vision</span>
-
-        </div>
-
-        <div class="text-center mb-8">
-
-            <p class="text-gray-500 text-[10px] uppercase">الرصيد الوهمي الحالي</p>
-
-            <h1 id="bal" class="text-4xl font-black text-white">€10,000</h1>
-
-        </div>
-
-        <div id="halal" class="hidden bg-green-900/10 border border-green-800 p-4 rounded-xl mb-6">
-
-            <p class="text-green-500 text-[10px] font-bold">القسم الإسلامي نشط | <span onclick="calcZakat()" class="underline cursor-pointer">حساب الزكاة</span></p>
-
-        </div>
-
-        <button onclick="trade()" class="w-full py-4 gold-bg rounded-2xl font-bold">استثمار يدوي (ترقية الرتبة)</button>
-
-        <p class="text-[8px] text-gray-700 text-center mt-8 italic font-bold">aioinvestapp.com | © 2026</p>
-
-    </div>
-
 
     <script>
+        function handleLogin() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
 
-        let b = 10000; let t = 0; let tries = 0;
-
-        function login() {
-
-            if (document.getElementById('pass').value === "1234") {
-
-                document.getElementById('login-box').classList.add('hidden');
-
-                document.getElementById('pref-box').classList.remove('hidden');
-
+            // نظام التعرف على القائد Alpha
+            if(user === "Alouch" && pass === "1234") {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                document.getElementById('user-display').innerText = user;
+                document.getElementById('rank-display').innerText = "ALPHA OWNER";
             } else {
-
-                tries++; if(tries>=3) alert("قفل الحساب!");
-
-                document.getElementById('err').innerText = "خطأ في الرمز";
-
+                alert("بيانات الدخول غير صحيحة");
             }
-
         }
 
-        function setPref(islamic) {
-
-            if(islamic) document.getElementById('halal').classList.remove('hidden');
-
-            document.getElementById('pref-box').classList.add('hidden');
-
-            document.getElementById('app').classList.remove('hidden');
-
+        function calculate() {
+            const cap = document.getElementById('capital').value;
+            if(cap) {
+                document.getElementById('results').classList.remove('hidden');
+                document.getElementById('zakat-val').innerText = (cap * 0.025).toFixed(2) + "€";
+                document.getElementById('net-val').innerText = (cap - (cap * 0.025)).toFixed(2) + "€";
+            }
         }
 
-        function trade() {
-
-            t++; b += 500; document.getElementById('bal').innerText = "€" + b.toLocaleString();
-
-            if(t>=30) document.getElementById('rank').innerText = "عضو النخبة ⭐";
-
-            if(t>=100) document.getElementById('rank').innerText = "خبير استراتيجي 🏆";
-
-        }
-
-        function calcZakat() { alert("مقدار الزكاة الواجبة حالياً: €" + (b * 0.025).toFixed(2)); }
-
+        // محاكاة الـ API (سنربطها حقيقياً في الخطوة التالية)
+        setTimeout(() => {
+            document.getElementById('btc-price').innerText = "$42,500.12";
+            document.getElementById('eth-price').innerText = "$2,250.45";
+        }, 2000);
     </script>
-
 </body>
-
 </html>
