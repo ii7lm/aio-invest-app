@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIO Invest | Alpha Strategic Control</title>
+    <title>AIO Invest | Alhamdan Vision Strategic Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -12,19 +12,22 @@
         .glass { background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(15px); border: 1px solid #333; transition: 0.3s; }
         .nav-tab { cursor: pointer; padding: 12px 20px; border-radius: 12px; transition: 0.3s; margin-bottom: 8px; border: 1px solid transparent; }
         .active-tab { background: #D4AF37; color: black; font-weight: bold; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
-        .sniper-alert { border-right: 4px solid #ff0000; background: rgba(255, 0, 0, 0.05); }
+        .sniper-alert { border-right: 4px solid #ff0000; background: rgba(255, 0, 0, 0.05); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
+        .hidden { display: none; }
     </style>
 </head>
 <body class="min-h-screen">
 
-    <div id="login-screen" class="min-h-screen flex items-center justify-center">
+    <div id="login-screen" class="min-h-screen flex items-center justify-center bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]">
         <div class="glass p-12 rounded-[40px] w-full max-w-md text-center shadow-2xl border-yellow-600/30 border">
             <h1 class="text-5xl font-bold mb-2 tracking-widest text-[#D4AF37]">AIO</h1>
-            <p class="text-gray-500 mb-10 uppercase text-xs tracking-widest">Alpha Command Center</p>
-            <div class="space-y-4 text-center">
-                <input type="text" id="username" placeholder="القائد (Alouch)" class="w-full p-4 rounded-2xl bg-black border border-gray-800 text-white outline-none focus:border-yellow-600 text-center">
+            <p class="text-gray-500 mb-10 uppercase text-xs tracking-widest italic">Integrity & Wealth Control</p>
+            <div class="space-y-4">
+                <input type="text" id="username" placeholder="اسم القائد (Alouch)" class="w-full p-4 rounded-2xl bg-black border border-gray-800 text-white outline-none focus:border-yellow-600 text-center">
                 <input type="password" id="password" placeholder="كلمة السر" class="w-full p-4 rounded-2xl bg-black border border-gray-800 text-white outline-none focus:border-yellow-600 text-center">
-                <button onclick="handleLogin()" class="w-full py-4 gold-gradient rounded-2xl font-bold text-xl hover:scale-95 transition mt-4">تسجيل الدخول</button>
+                <button onclick="handleLogin()" class="w-full py-4 gold-gradient rounded-2xl font-bold text-xl hover:scale-95 transition mt-4">تسجيل الدخول للنظام</button>
+                <p id="auth-msg" class="text-red-600 text-[10px] mt-2"></p>
             </div>
         </div>
     </div>
@@ -32,92 +35,123 @@
     <div id="dashboard" class="hidden">
         <nav class="glass sticky top-0 z-50 p-5 flex justify-between items-center px-10 border-b border-yellow-900/20">
             <div class="flex items-center gap-6">
-                <span class="text-3xl font-black text-[#D4AF37]">AIO <span class="text-white font-light text-xl">INVEST</span></span>
+                <span class="text-3xl font-black text-[#D4AF37]">AIO <span class="text-white font-light text-xl italic">ALPHA</span></span>
+                <span class="text-[10px] bg-green-900/30 text-green-500 px-3 py-1 rounded-full border border-green-500/20 uppercase font-bold tracking-widest">Active Integrity System</span>
             </div>
-            <div class="flex items-center gap-6 text-left">
-                <div>
-                    <p class="text-[10px] text-gray-500 uppercase font-bold">Commander</p>
+            <div class="flex items-center gap-6">
+                <div class="text-right">
+                    <p class="text-[10px] text-gray-500 uppercase">Current Commander</p>
                     <p class="text-sm font-bold text-white uppercase" id="user-display"></p>
                 </div>
-                <button onclick="location.reload()" class="bg-red-950/20 p-3 rounded-2xl border border-red-900/30 text-red-500 hover:bg-red-600 hover:text-white transition">✕</button>
+                <button onclick="location.reload()" class="bg-red-950/20 p-3 rounded-2xl border border-red-900/30 text-red-500 hover:bg-red-600 transition">خروج</button>
             </div>
         </nav>
 
         <main class="p-8 max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <aside class="lg:col-span-3">
+            <aside class="lg:col-span-3 space-y-6">
                 <div class="glass p-6 rounded-[30px] border border-gray-800">
-                    <p class="text-[10px] text-gray-500 mb-6 px-2 uppercase tracking-widest">أقسام القائد</p>
-                    <div onclick="showTab('summary')" class="nav-tab active-tab" id="tab-summary">🏢 ملخص المحفظة</div>
-                    <div onclick="showTab('sniper')" class="nav-tab" id="tab-sniper">🎯 نظام القنص (Sniper)</div>
-                    <div onclick="showTab('gold')" class="nav-tab" id="tab-gold">🟡 بورصة الذهب</div>
-                    <div onclick="showTab('forex')" class="nav-tab" id="tab-forex">💱 الفوركس</div>
-                    <div onclick="showTab('real')" class="nav-tab" id="tab-real">🏠 العقارات</div>
+                    <p class="text-[10px] text-gray-500 mb-6 px-2 uppercase tracking-widest font-bold text-yellow-600">غرفة العمليات الاستراتيجية</p>
+                    <div id="menu">
+                        <div onclick="showTab('market')" class="nav-tab active-tab" id="tab-market">📊 مراقبة السوق الحية</div>
+                        <div onclick="showTab('sniper')" class="nav-tab" id="tab-sniper">🎯 نظام القنص الذكي</div>
+                        <div onclick="showTab('integrity')" class="nav-tab" id="tab-integrity">🛡️ محرك كشف الكذب</div>
+                        <div onclick="showTab('portfolio')" class="nav-tab" id="tab-portfolio">🏠 إدارة المحفظة والأصول</div>
+                        <div onclick="showTab('academy')" class="nav-tab" id="tab-academy">📖 الأكاديمية (Academy)</div>
+                    </div>
+                </div>
+
+                <div class="glass p-6 rounded-[30px] bg-gradient-to-br from-yellow-900/10 to-transparent">
+                    <h4 class="text-xs font-bold mb-4 text-gray-400 uppercase tracking-widest underline">الحالة الأمنية للحساب</h4>
+                    <p class="text-[10px] text-gray-400">تحذيرات الصدق: <span id="warning-count" class="text-green-500 font-bold">0/3</span></p>
                 </div>
             </aside>
 
             <section class="lg:col-span-9 space-y-8">
-                <div id="content-summary" class="tab-content">
+                
+                <div id="content-market" class="tab-content">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="glass p-8 rounded-[35px] border-l-8 border-yellow-500">
-                            <h3 class="text-gray-400 text-xs mb-2 font-bold">Bitcoin (Live)</h3>
-                            <p class="text-3xl font-black text-white" id="btc-live">جاري التحميل...</p>
+                            <h3 class="text-gray-400 text-[10px] mb-2 uppercase font-bold tracking-widest">Bitcoin (BTC/USD)</h3>
+                            <p class="text-4xl font-black text-white" id="btc-live">جاري الجلب...</p>
                         </div>
                         <div class="glass p-8 rounded-[35px] border-l-8 border-green-500">
-                            <h3 class="text-gray-400 text-xs mb-2 font-bold">إجمالي رأس المال</h3>
-                            <p class="text-3xl font-black text-white">€ 125,500</p>
+                            <h3 class="text-gray-400 text-[10px] mb-2 uppercase font-bold tracking-widest">Gold Price (Ounce)</h3>
+                            <p class="text-4xl font-black text-white" id="gold-live">$2,054.20</p>
                         </div>
                         <div class="glass p-8 rounded-[35px] border-l-8 border-blue-500">
-                            <h3 class="text-gray-400 text-xs mb-2 font-bold">الزكاة المستحقة</h3>
-                            <p class="text-3xl font-black text-blue-400">€ 3,137</p>
+                            <h3 class="text-gray-400 text-[10px] mb-2 uppercase font-bold tracking-widest">Zakat Analysis (2.5%)</h3>
+                            <p class="text-4xl font-black text-blue-400" id="zakat-val">€ 0.00</p>
                         </div>
                     </div>
                 </div>
 
                 <div id="content-sniper" class="tab-content hidden">
-                    <div class="glass p-10 rounded-[40px] sniper-alert">
-                        <h2 class="text-3xl font-black text-red-500 mb-4 italic">SNIPER ALGORITHM</h2>
-                        <div class="card-inner p-6 bg-black rounded-3xl border border-gray-800">
-                            <p class="text-sm text-gray-400 mb-2 font-bold">حالة السوق الآن:</p>
-                            <p id="sniper-status" class="text-xl font-bold">Scanning for Dips...</p>
+                    <div class="glass p-10 rounded-[40px] sniper-alert border-red-900/30">
+                        <h2 class="text-3xl font-black text-red-500 mb-2 italic">MARKET SNIPER V1.5</h2>
+                        <p class="text-gray-400 text-sm mb-6">يراقب النظام "حاسة Alouch" لاقتناص العملات المشفرة عند هبوطها الحاد.</p>
+                        <div class="p-6 bg-black rounded-3xl border border-red-900/20">
+                            <p class="text-[10px] text-red-500 uppercase font-bold mb-2">Signal Status</p>
+                            <p id="sniper-msg" class="text-xl font-bold animate-pulse text-white">Scanning Orders...</p>
                         </div>
                     </div>
                 </div>
 
-                <div id="content-gold" class="tab-content hidden">
-                    <div class="glass p-10 rounded-[40px] border border-yellow-600/20">
-                        <h2 class="text-2xl font-black text-[#D4AF37] mb-8 uppercase">خزينة الذهب العالمية</h2>
-                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                            <div class="p-4 bg-black rounded-xl text-center">
-                                <p class="text-gray-500 text-[10px] mb-2 uppercase">جرام 24</p>
-                                <p class="text-xl font-black">€ 62.15</p>
-                            </div>
-                            <div class="p-4 bg-black rounded-xl text-center">
-                                <p class="text-gray-500 text-[10px] mb-2 uppercase">جرام 21</p>
-                                <p class="text-xl font-black">€ 54.38</p>
-                            </div>
+                <div id="content-integrity" class="tab-content hidden">
+                    <div class="glass p-10 rounded-[40px]">
+                        <h2 class="text-2xl font-bold text-yellow-500 mb-6 uppercase italic">Integrity Verification Center</h2>
+                        <p class="text-xs text-gray-500 mb-6">أدخل بيانات أي استثمار جديد ليقوم النظام بفحص "الصدق" والوعود الكاذبة.</p>
+                        <div class="space-y-4">
+                            <input type="number" id="daily-return" placeholder="الوعد بالربح اليومي (%)" class="w-full p-4 bg-black border border-gray-800 rounded-xl text-white outline-none">
+                            <button onclick="checkIntegrity()" class="w-full py-4 gold-gradient rounded-xl font-bold">بدء فحص الحاسة السادسة</button>
+                            <div id="integrity-result" class="mt-4 p-4 rounded-xl text-center hidden font-bold"></div>
                         </div>
                     </div>
                 </div>
+
+                <div id="content-academy" class="tab-content hidden glass p-10 rounded-[40px]">
+                    <h2 class="text-2xl font-bold mb-6 underline">AIO Academy | Alhamdan Education</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-6 bg-black rounded-2xl border border-gray-800">
+                            <h4 class="text-yellow-500 font-bold mb-2 uppercase tracking-tighter">ما هو الذهب؟</h4>
+                            <p class="text-xs text-gray-400">الذهب هو الملاذ الآمن الأول عالمياً. يحفظ قيمة أموالك من التضخم ويعتبر أساس محفظة النخبة.</p>
+                        </div>
+                        <div class="p-6 bg-black rounded-2xl border border-gray-800 text-right">
+                            <h4 class="text-yellow-500 font-bold mb-2 uppercase">¿Qué es el Oro?</h4>
+                            <p class="text-xs text-gray-400">El oro es el refugio seguro mundial. Protege tu capital contra la inflación y es la base de la cartera de élite.</p>
+                        </div>
+                    </div>
+                </div>
+
             </section>
         </main>
     </div>
 
     <script>
-        // 1. نظام الدخول
+        let warnings = 0;
+        let authAttempts = 0;
+
+        // 1. منطق الدخول والحماية
         function handleLogin() {
             const u = document.getElementById('username').value;
             const p = document.getElementById('password').value;
+            const msg = document.getElementById('auth-msg');
+
             if(u === "Alouch" && p === "1234") {
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
                 document.getElementById('user-display').innerText = u;
-                updateMarketData(); // تحديث فوري
+                updateMarketData();
             } else {
-                alert("صلاحيات القائد مرفوضة!");
+                authAttempts++;
+                msg.innerText = `خطأ في الدخول! محاولة ${authAttempts}/3`;
+                if(authAttempts >= 3) {
+                    msg.innerText = "تم قفل النظام مؤقتاً للأمان (Justice Law Applied)";
+                    document.querySelector('button').disabled = true;
+                }
             }
         }
 
-        // 2. نظام التبويبات
+        // 2. نظام التنقل
         function showTab(id) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active-tab'));
@@ -125,22 +159,39 @@
             document.getElementById('tab-' + id).classList.add('active-tab');
         }
 
-        // 3. محرك الأسعار الحية (Live API)
+        // 3. محرك كشف الكذب (الحاسة السادسة)
+        function checkIntegrity() {
+            const profit = document.getElementById('daily-return').value;
+            const result = document.getElementById('integrity-result');
+            result.classList.remove('hidden');
+            
+            if (profit > 1) { // أي وعد بأكثر من 1% يومياً يعتبر كذباً برمجياً
+                result.innerText = "❌ نظام AIO يرفض هذا الاستثمار: وعود كاذبة (Scam Alert)";
+                result.className = "mt-4 p-4 rounded-xl text-center font-bold bg-red-900/30 text-red-500";
+            } else {
+                result.innerText = "✅ تم التحقق: استثمار منطقي يطابق معايير الصدق الخاصة بنا.";
+                result.className = "mt-4 p-4 rounded-xl text-center font-bold bg-green-900/30 text-green-500";
+            }
+        }
+
+        // 4. محرك الأسعار الحية (Live API)
         async function updateMarketData() {
             try {
                 const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
                 const data = await response.json();
-                const btcPrice = data.bitcoin.usd;
+                const btc = data.bitcoin.usd;
                 
-                document.getElementById('btc-live').innerText = "$" + btcPrice.toLocaleString();
-                
-                const sniperStatus = document.getElementById('sniper-status');
-                if (btcPrice < 95000) { // مثال لقيمة قنص
-                    sniperStatus.innerText = "فرصة قنص نشطة! السعر مثالي للدخول";
-                    sniperStatus.className = "text-green-500 font-bold animate-pulse";
+                document.getElementById('btc-live').innerText = "$" + btc.toLocaleString();
+                document.getElementById('zakat-val').innerText = "€ " + (125500 * 0.025).toLocaleString(); // مثال على رأس مال ثابت
+
+                const sniperMsg = document.getElementById('sniper-msg');
+                if (btc < 95000) { 
+                    sniperMsg.innerText = "🎯 فرصة قنص مفعلة! السعر مثالي بناءً على حاسة القائد";
+                    sniperMsg.classList.add('text-green-500');
                 }
-            } catch (e) { console.log("بانتظار السوق..."); }
+            } catch (e) { console.log("بانتظار استجابة السوق العالمي..."); }
         }
+
         setInterval(updateMarketData, 30000);
     </script>
 </body>
